@@ -11,6 +11,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --button-active: #2AE881;
+  --button-inactive: rgba(192, 192, 192, 1);
+  --button-inactive-text: rgba(120, 120, 120, 1);
+  --button-download: rgba(252, 227, 0, 1);
+  --button-clear: rgba(32, 27, 16, 1);
 }
 
 a {
@@ -35,7 +41,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -52,7 +58,7 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   :root {

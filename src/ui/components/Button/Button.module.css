@@ -1,0 +1,26 @@
+.button {
+    border: none;
+    outline: none!important;
+    cursor: pointer;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    background-color: var(--button-active);
+    transition: all .3s ease;
+}
+
+.button:hover {
+    opacity: .8;
+}
+
+.inactive {
+    background-color: var(--button-inactive-text);
+}
+
+.download {
+    background-color: var(--button-download);
+}
+
+.clear {
+    background-color: var(--button-clear);
+    color: #fff;
+}
