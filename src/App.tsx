@@ -1,29 +1,24 @@
-import { useEffect, useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './ui/pages/Home'
+import { Routes, Route, Link } from 'react-router-dom';
 
+import './App.css';
+
+import Header from './ui/components/Header/Header';
+import Analysis from './ui/pages/Analysis';
+import Generate from './ui/pages/Generate';
+import History from './ui/pages/History';
 
 function App() {
   return (
     <div>
-      <nav>
-        <Link to="/">Главная</Link>{' '}
-        <Link to="/about">О нас</Link>{' '}
-        <Link to="/contact">Контакт</Link>
-      </nav>
-
+      <Header></Header>
       <Routes>
-        <Route path="/" element={<Home />} />
-{/*         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} /> */}
-        {/* Резервный маршрут */}
+        <Route path="/" element={<Analysis />} />
+        <Route path="/generate" element={<Generate />} />
+        <Route path="/history" element={<History />} />
         <Route path="*" element={<h1>Страница не найдена</h1>} />
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

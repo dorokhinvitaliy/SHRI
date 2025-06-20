@@ -1,145 +1,130 @@
-// src/components/Uploader.tsx
-import React, { useState } from 'react'
-import styles from './Uploader.module.css'
+import React, { useState } from 'react';
+import styles from './Uploader.module.css';
 
-interface FileState {
-  file: File | null
-  status: 'idle' | 'loading' | 'success' | 'error'
-}
+import cancel from '/cancel.svg';
+import classNames from 'classnames';
 
-export const Uploader: React.FC = () => {
-  const [dragActive, setDragActive] = useState(false)
-  const [fileState, setFileState] = useState<FileState>({
-    file: null,
-    status: 'idle',
-  })
+export type UploaderFileState = {
+  onFileSelected?: (file: File) => void;
+  onReset?: () => void;
+  file: File | null;
+  status: 'idle' | 'ready' | 'parsing' | 'success' | 'error';
+  parsing?: boolean;
+  parsingDone?: boolean;
+};
+
+export default function Uploader({
+  onFileSelected,
+  onReset,
+  file,
+  status,
+}: UploaderFileState) {
+  const [dragActive, setDragActive] = useState(false);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(true)
-  }
+    e.preventDefault();
+    setDragActive(true);
+  };
 
   const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-  }
+    e.preventDefault();
+    setDragActive(false);
+  };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
+    e.preventDefault();
+    setDragActive(false);
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile) onFileSelected(droppedFile);
+  };
 
-    const droppedFiles = Array.from(e.dataTransfer.files)
-    if (droppedFiles.length > 0) {
-      const file = droppedFiles[0]
-
-      // Проверка формата файла
-      if (!file.name.endsWith('.csv')) {
-        alert('Поддерживаются только CSV-файлы')
-        return
-      }
-
-      setFileState({ file, status: 'loading' })
-
-      // Имитация обработки файла
-      simulateProcessing(file)
-    }
-  }
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = e.target.files
-    if (selectedFiles && selectedFiles.length > 0) {
-      const file = selectedFiles[0]
-
-      if (!file.name.endsWith('.csv')) {
-        alert('Поддерживаются только CSV-файлы')
-        return
-      }
-
-      setFileState({ file, status: 'loading' })
-
-      // Имитация обработки файла
-      simulateProcessing(file)
-    }
-  }
-
-  const simulateProcessing = (file: File) => {
-    // Имитация длительной операции
-    setTimeout(() => {
-      setFileState((prev) => ({ ...prev, status: 'success' }))
-    }, 2000)
-
-    setTimeout(() => {
-      // Случайная ошибка
-      if (Math.random() < 0.3) {
-        setFileState((prev) => ({ ...prev, status: 'error' }))
-      }
-    }, 4000)
-  }
-
-  const resetFile = () => {
-    setFileState({ file: null, status: 'idle' })
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) onFileSelected(selectedFile);
+  };
 
   return (
     <div
-      className={`${styles.uploader} ${
-        dragActive ? styles['uploader--active'] : ''
-      } ${fileState.status === 'success' ? styles['uploader--success'] : ''} ${
-        fileState.status === 'error' ? styles['uploader--error'] : ''
-      }`}
+      className={classNames(
+        styles.uploader,
+        dragActive && styles['uploader--active'],
+        status === 'success' && styles['uploader--success'],
+        status === 'error' && styles['uploader--error'],
+        status === 'ready' && styles['uploader--preview'],
+        status === 'parsing' && styles['uploader--processing']
+      )}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      {fileState.status === 'idle' && (
+      {status === 'idle' && (
         <>
-          <p>Перетащите файл сюда</p>
           <button
-            type="button"
+            className={styles.button}
             onClick={() => document.getElementById('file-input')?.click()}
           >
-            Загрузить файл
+            {status === 'idle' ? 'Загрузить файл' : 'Заменить файл'}
           </button>
+          <p>Перетащите файл сюда</p>
           <input
             id="file-input"
             type="file"
             accept=".csv"
-            onChange={handleFileInput}
+            onChange={handleInputChange}
             style={{ display: 'none' }}
           />
         </>
       )}
 
-      {fileState.status === 'loading' && (
+      {status === 'ready' && file && (
+        <div className={styles.uploader__preview}>
+          <div className={styles.fileFlex}>
+            <p>{file.name}</p>
+            <button className={styles.iconButton} onClick={onReset}>
+              <img src={cancel} alt="cancel" width={20} height={20} />
+            </button>
+          </div>
+          <p>Файл загружен!</p>
+        </div>
+      )}
+
+      {status === 'parsing' && (
         <div className={styles.uploader__processing}>
-          <div className={styles.uploader__spinner}></div>
-          <p>Идёт парсинг файла</p>
-          <p>{fileState.file?.name}</p>
+          <div className={styles.fileFlex}>
+            <p>
+              <div
+                style={{ margin: '0 5rem' }}
+                className={styles.uploader__spinner}
+              ></div>
+            </p>
+          </div>
+          <p>идет парсинг файла…</p>
         </div>
       )}
 
-      {fileState.status === 'success' && (
+      {status === 'success' && (
         <div className={styles.uploader__result}>
-          <p>✅ Готово!</p>
-          <p>{fileState.file?.name}</p>
-          <button type="button" onClick={resetFile}>
-            Удалить
-          </button>
+          <div className={styles.fileFlex}>
+            <p>{file?.name}</p>
+            <button className={styles.iconButton} onClick={onReset}>
+              <img src={cancel} alt="cancel" width={20} height={20} />
+            </button>
+          </div>
+          <p>готово!</p>
         </div>
       )}
 
-      {fileState.status === 'error' && (
+      {status === 'error' && (
         <div className={styles.uploader__error}>
-          <p>⚠️ Упс, не то…</p>
-          <p>{fileState.file?.name}</p>
-          <button type="button" onClick={resetFile}>
-            Попробовать снова
-          </button>
+          <div className={styles.fileFlex}>
+            <p>{file?.name}</p>
+            <button className={styles.iconButton} onClick={onReset}>
+              <img src={cancel} alt="cancel" width={20} height={20} />
+            </button>
+          </div>
+          <p>Произошла ошибка при парсинге</p>
         </div>
       )}
     </div>
-  )
+  );
 }

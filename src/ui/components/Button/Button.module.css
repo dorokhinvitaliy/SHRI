@@ -1,8 +1,11 @@
 .button {
+    display: block;
+    font-weight: 600;
+    font-size: 1.2rem;
     border: none;
     outline: none!important;
     cursor: pointer;
-    border-radius: .5rem;
+    border-radius: .8rem;
     padding: .5rem 1rem;
     background-color: var(--button-active);
     transition: all .3s ease;
@@ -13,7 +16,10 @@
 }
 
 .inactive {
-    background-color: var(--button-inactive-text);
+    user-select: none;
+    pointer-events: none;
+    color: var(--button-inactive-text);
+    background-color: var(--button-inactive);
 }
 
 .download {
@@ -23,4 +29,10 @@
 .clear {
     background-color: var(--button-clear);
     color: #fff;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: .7rem;
 }
