@@ -79,7 +79,7 @@ export default function Uploader({
       {status === 'ready' && file && (
         <div className={styles.uploader__preview}>
           <div className={styles.fileFlex}>
-            <p>{file.name}</p>
+            <div className={styles.fileArea}>{file.name}</div>
             <button className={styles.iconButton} onClick={onReset}>
               <img src={cancel} alt="cancel" width={20} height={20} />
             </button>
@@ -91,12 +91,12 @@ export default function Uploader({
       {status === 'parsing' && (
         <div className={styles.uploader__processing}>
           <div className={styles.fileFlex}>
-            <p>
+            <div className={styles.fileArea}>
               <div
                 style={{ margin: '0 5rem' }}
                 className={styles.uploader__spinner}
               ></div>
-            </p>
+            </div>
           </div>
           <p>идет парсинг файла…</p>
         </div>
@@ -105,7 +105,7 @@ export default function Uploader({
       {status === 'success' && (
         <div className={styles.uploader__result}>
           <div className={styles.fileFlex}>
-            <p>{file?.name}</p>
+            <div className={styles.fileArea}>{file?.name}</div>
             <button className={styles.iconButton} onClick={onReset}>
               <img src={cancel} alt="cancel" width={20} height={20} />
             </button>
@@ -117,7 +117,7 @@ export default function Uploader({
       {status === 'error' && (
         <div className={styles.uploader__error}>
           <div className={styles.fileFlex}>
-            <p>{file?.name}</p>
+            <div className={styles.fileArea}>{file?.name}</div>
             <button className={styles.iconButton} onClick={onReset}>
               <img src={cancel} alt="cancel" width={20} height={20} />
             </button>

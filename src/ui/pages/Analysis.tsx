@@ -1,12 +1,11 @@
 import Button from '../components/Button/Button';
 import Uploader from '../components/Uploader/Uploader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { UploaderFileState } from '../components/Uploader/Uploader';
 import Field, { FieldSet } from '../components/Field/Field';
 
 import { useRequestHistoryStore } from '../../store/useRequestHistoryStore';
-import type { RequestHistoryItem } from '../../store/useRequestHistoryStore';
 
 export type jsonAnswer = {
   total_spend_galactic?: number;
@@ -32,22 +31,8 @@ export default function Analysis() {
 
   const [data, setData] = useState<jsonAnswer>({});
 
-  const fieldset = [
-    {
-      id: 1,
-      title: 'общие расходы в галактических кредитах',
-      value: data.total_spend_galactic,
-    },
-    {
-      id: 2,
-      title: 'общие расходы в галактических кредитах',
-      value: data.total_spend_galactic,
-    },
-  ];
-
   const handleFileSelected = (file: File) => {
     if (!file.name.endsWith('.csv')) {
-      alert('Поддерживаются только CSV-файлы');
       return;
     }
 
@@ -100,6 +85,7 @@ export default function Analysis() {
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
       let buffer = '';
+      let latestData: jsonAnswer = {};
 
       while (true) {
         const { done, value } = await reader.read();
@@ -116,6 +102,7 @@ export default function Analysis() {
 
           try {
             const json = JSON.parse(line);
+            latestData = { ...latestData, ...json };
             setData((prev) => ({ ...prev, ...json }));
           } catch (e) {
             console.error('Ошибка парсинга:', line);
@@ -125,6 +112,7 @@ export default function Analysis() {
       if (buffer.trim()) {
         try {
           const json = JSON.parse(buffer.trim());
+          latestData = { ...latestData, ...json };
           setData((prev) => ({ ...prev, ...json }));
         } catch (e) {
           console.error('Ошибка парсинга остатка:', buffer);
@@ -141,7 +129,7 @@ export default function Analysis() {
       addToHistory({
         fileName: file.name,
         status: 'success',
-        result: data,
+        result: latestData,
       });
     } catch (e) {
       setFileState((prev) => ({

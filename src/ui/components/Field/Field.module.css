@@ -6,6 +6,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: 1rem;
+    box-sizing: border-box;
 }
 
 .field > div {
@@ -18,4 +19,14 @@
     gap: 1rem;
     max-width: 1000px;
     margin: auto;
+}
+
+.secondary .field {
+    background-color: var(--quite-dark);
+    width: 100%;
+}
+
+.secondary.fieldset {
+    display: flex;
+    flex-direction: column;
 }

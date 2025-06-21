@@ -10,17 +10,23 @@ import fileIcon from '/file.svg';
 import trashIcon from '/trash.svg';
 
 import styles from './HistoryItem.module.css';
+import type { jsonAnswer } from '../../pages/Analysis';
+import { Modal } from '../Modal/Modal';
+import Field, { FieldSet } from '../Field/Field';
+import { useState } from 'react';
 
 export default function HistoryItem({
   id,
   fileName,
   date,
   status,
+  result,
 }: RequestHistoryItem) {
   const { removeFromHistory } = useRequestHistoryStore();
+  const [opened, switchOpened] = useState(false);
   return (
     <div className={styles.item}>
-      <div className={styles.itemBlock}>
+      <div className={styles.itemBlock} onClick={() => switchOpened(true)}>
         <div className={styles.itemBlock_section}>
           <img src={fileIcon} alt={fileIcon} width={25} height={25} />
           {fileName}
@@ -51,6 +57,44 @@ export default function HistoryItem({
       >
         <img src={trashIcon} alt={'trash'} width={20} height={20} />
       </button>
+      {status == 'success' && (
+        <Modal isOpened={opened} onClose={() => switchOpened(false)}>
+          <FieldSet secondary>
+            <Field
+              title="общие расходы в галактических кредитах"
+              value={result?.total_spend_galactic}
+            />
+            <Field
+              title="количество обработанных записей"
+              value={result?.rows_affected}
+            />
+            <Field
+              title="день года с минимальными расходами"
+              value={result?.less_spent_at}
+            />
+            <Field
+              title="цивилизация с минимальными расходами"
+              value={result?.less_spent_civ}
+            />
+            <Field
+              title="день года с максимальными расходами"
+              value={result?.big_spent_at}
+            />
+            <Field
+              title="максимальная сумма расходов за день"
+              value={result?.big_spent_value}
+            />
+            <Field
+              title="средние расходы в галактических кредитах"
+              value={result?.average_spend_galactic}
+            />
+            <Field
+              title="цивилизация с максимальными расходами"
+              value={result?.big_spent_civ}
+            />
+          </FieldSet>
+        </Modal>
+      )}
     </div>
   );
 }
@@ -65,6 +109,7 @@ export function HistoryItems({ items }: { items: RequestHistoryItem[] }) {
           fileName={item.fileName}
           status={item.status}
           id={item.id}
+          result={item.result}
         />
       ))}
     </div>
