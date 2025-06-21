@@ -1,54 +1,96 @@
-# React + TypeScript + Vite
+# SHRI Analytics Interface
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📄 Интерфейс Сервиса межгалактической аналитики, реализованный на React + TypeScript с использованием Vite, Zustand и CSS Modules.
 
-Currently, two official plugins are available:
+## Функциональность
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Загрузка таблиц и получение аналитики в реальном времени (стриминг)
+- Генерация тестовых таблиц
+- История загрузок, сохранённая в LocalStorage
+- Навигация по разделам (Главная, Генерация, История)
+- Модальные окна с подробной аналитикой
 
-## Expanding the ESLint configuration
+## Технологии
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React + TypeScript**
+- **Vite** — сборка
+- **Zustand** — управление состоянием
+- **CSS Modules** — стилизация
+- **react-router-dom** — роутинг
+- **Fetch API** — запросы к бэкенду
+- **React Portals** — модальные окна
+- **ESLint + Prettier** — линтинг и автоформатирование
+- **LocalStorage** — история загрузок
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+## Архитектура проекта
+
+```
+src/
+├── components/       # Переиспользуемые UI-компоненты (Uploader, Loader, Table и др.)
+├── pages/            # Страницы: MainPage, HistoryPage, GeneratePage
+├── store/            # Zustand-хранилище
+├── utils/            # Утилиты: парсинг, работа с API, форматирование
+├── styles/           # Глобальные стили
+├── App.tsx           # Главный компонент с роутингом
+└── main.tsx          # Точка входа
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Каждая страница реализует один раздел интерфейса:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+- **MainPage** — загрузка таблиц и отображение статистики
+- **GeneratePage** — генерация тестовых таблиц
+- **HistoryPage** — история загрузок (данные хранятся в `LocalStorage`)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+Состояние обрабатывается через `Zustand`, данные передаются по стриму с сервера и накапливаются на фронте для плавного отображения прогресса.
+
+## Запуск проекта
+
+### 1. Клонировать репозиторий
+
+```bash
+git clone https://github.com/dorokhinvitaliy/SHRI.git
+cd SHRI/SHRI
 ```
+
+### 2. Установить зависимости
+
+```bash
+npm install
+```
+
+### 3. Запустить dev-сервер
+
+```bash
+npm run dev
+```
+
+Приложение будет доступно по адресу: `http://localhost:5173`
+
+> Бэкенд должен быть предварительно запущен (см. задание по Node.js).
+
+## 📁 Структура истории (LocalStorage)
+
+Записи об истории загрузок хранятся в `localStorage` в виде массива объектов, содержащих:
+
+- название файла
+- дата загрузки
+- итоговая аналитика
+- подробные данные для модального окна
+
+## Проверка
+
+- Реализована drag\&drop загрузка таблицы
+- Плавное обновление аналитики по мере получения стрима
+- Обработка ошибок загрузки и запроса
+- История доступна даже после перезагрузки
+- Поддержка модальных окон и роутинга
+- Соответствие дизайн-макетам
+
+## Скрипты
+
+| Скрипт           | Назначение                    |
+| ---------------- | ----------------------------- |
+| `npm run dev`    | запуск dev-сервера            |
+| `npm run build`  | сборка проекта                |
+| `npm run lint`   | запуск ESLint                 |
+| `npm run format` | форматирование через Prettier |
