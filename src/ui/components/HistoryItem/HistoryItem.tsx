@@ -1,8 +1,5 @@
 import classNames from 'classnames';
-import {
-  useRequestHistoryStore,
-  type RequestHistoryItem,
-} from '../../../store/useRequestHistoryStore';
+import { useRequestHistoryStore } from '../../../store/useRequestHistoryStore';
 
 import happyIcon from '/happy.svg';
 import sadIcon from '/sad.svg';
@@ -11,8 +8,9 @@ import trashIcon from '/trash.svg';
 
 import styles from './HistoryItem.module.css';
 import { Modal } from '../Modal/Modal';
-import Field, { FieldSet } from '../Field/Field';
+import { FieldSet } from '../Field/Field';
 import { useState } from 'react';
+import type { RequestHistoryItem } from '../../../store/store.types';
 
 export default function HistoryItem({
   id,
@@ -58,40 +56,7 @@ export default function HistoryItem({
       </button>
       {status == 'success' && (
         <Modal isOpened={opened} onClose={() => switchOpened(false)}>
-          <FieldSet secondary>
-            <Field
-              title="общие расходы в галактических кредитах"
-              value={result?.total_spend_galactic}
-            />
-            <Field
-              title="количество обработанных записей"
-              value={result?.rows_affected}
-            />
-            <Field
-              title="день года с минимальными расходами"
-              value={result?.less_spent_at}
-            />
-            <Field
-              title="цивилизация с минимальными расходами"
-              value={result?.less_spent_civ}
-            />
-            <Field
-              title="день года с максимальными расходами"
-              value={result?.big_spent_at}
-            />
-            <Field
-              title="максимальная сумма расходов за день"
-              value={result?.big_spent_value}
-            />
-            <Field
-              title="средние расходы в галактических кредитах"
-              value={result?.average_spend_galactic}
-            />
-            <Field
-              title="цивилизация с максимальными расходами"
-              value={result?.big_spent_civ}
-            />
-          </FieldSet>
+          <FieldSet secondary data={result}></FieldSet>
         </Modal>
       )}
     </div>

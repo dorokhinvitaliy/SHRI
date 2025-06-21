@@ -2,8 +2,8 @@ import Button from '../components/Button/Button';
 import Uploader from '../components/Uploader/Uploader';
 import { useState } from 'react';
 
-import type { UploaderFileState } from '../components/Uploader/Uploader.types.ts';
-import Field, { FieldSet } from '../components/Field/Field';
+import type { UploaderFileState } from '../components/Uploader/Uploader.types';
+import { FieldSet } from '../components/Field/Field';
 
 import { useRequestHistoryStore } from '../../store/useRequestHistoryStore';
 import fetchAggregate from '../../api/fetchAggregate';
@@ -77,40 +77,7 @@ export default function Analysis() {
 
       <div style={{ marginTop: '2rem' }}>
         {(fileState.status == 'success' || fileState.status == 'parsing') && (
-          <FieldSet>
-            <Field
-              title="общие расходы в галактических кредитах"
-              value={data.total_spend_galactic}
-            />
-            <Field
-              title="количество обработанных записей"
-              value={data.rows_affected}
-            />
-            <Field
-              title="день года с минимальными расходами"
-              value={data.less_spent_at}
-            />
-            <Field
-              title="цивилизация с минимальными расходами"
-              value={data.less_spent_civ}
-            />
-            <Field
-              title="день года с максимальными расходами"
-              value={data.big_spent_at}
-            />
-            <Field
-              title="максимальная сумма расходов за день"
-              value={data.big_spent_value}
-            />
-            <Field
-              title="средние расходы в галактических кредитах"
-              value={data.average_spend_galactic}
-            />
-            <Field
-              title="цивилизация с максимальными расходами"
-              value={data.big_spent_civ}
-            />
-          </FieldSet>
+          <FieldSet data={data}></FieldSet>
         )}
       </div>
     </div>
