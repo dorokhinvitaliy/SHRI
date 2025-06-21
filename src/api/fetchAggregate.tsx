@@ -1,10 +1,22 @@
-import type { jsonAnswer } from '../ui/pages/Analysis';
+import type { SetStateAction } from 'react';
+import type { jsonAnswer } from '../shared/types/common.types';
+import type { RequestHistoryItem } from '../store/store.types';
+import type { UploaderFileState } from '../ui/components/Uploader/Uploader.types';
 
 export default async function fetchAggregate(
-  file,
-  setData,
-  setFileState,
-  addToHistory
+  file: string | Blob,
+  setData: {
+    (value: SetStateAction<jsonAnswer>): void;
+    (arg0: { (prev: any): any; (prev: any): any }): void;
+  },
+  setFileState: {
+    (value: SetStateAction<UploaderFileState>): void;
+    (arg0: { (prev: any): any; (prev: any): any }): void;
+  },
+  addToHistory: {
+    (item: Omit<RequestHistoryItem, 'id'>): void;
+    (arg0: { fileName: any; status: string; result?: jsonAnswer }): void;
+  }
 ) {
   try {
     const formData = new FormData();
@@ -40,7 +52,7 @@ export default async function fetchAggregate(
         try {
           const json = JSON.parse(line);
           latestData = { ...latestData, ...json };
-          setData((prev) => ({ ...prev, ...json }));
+          setData((prev: any) => ({ ...prev, ...json }));
         } catch (e) {
           console.error('Ошибка парсинга:', line);
         }
@@ -50,13 +62,13 @@ export default async function fetchAggregate(
       try {
         const json = JSON.parse(buffer.trim());
         latestData = { ...latestData, ...json };
-        setData((prev) => ({ ...prev, ...json }));
+        setData((prev: any) => ({ ...prev, ...json }));
       } catch (e) {
         console.error('Ошибка парсинга остатка:', buffer);
       }
     }
 
-    setFileState((prev) => ({
+    setFileState((prev: any) => ({
       ...prev,
       status: 'success',
       parsing: false,
@@ -69,7 +81,7 @@ export default async function fetchAggregate(
       result: latestData,
     });
   } catch (e) {
-    setFileState((prev) => ({
+    setFileState((prev: any) => ({
       ...prev,
       status: 'error',
       parsing: false,

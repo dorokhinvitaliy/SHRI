@@ -28,6 +28,9 @@ export default function Generate() {
 
   return (
     <div className="area">
+      <p style={{ fontSize: '1.2rem', textAlign: 'center' }}>
+        Сгенерируйте готовый csv-файл нажатием одной кнопки
+      </p>
       <StateButton
         onClick={() => {
           handleStartParsing();

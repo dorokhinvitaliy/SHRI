@@ -17,7 +17,6 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="*" element={<h1>Страница не найдена</h1>} />
       </Routes>
-      <div id="modalArea"></div>
     </div>
   );
 }

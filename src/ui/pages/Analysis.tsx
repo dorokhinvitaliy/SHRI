@@ -14,16 +14,13 @@ export default function Analysis() {
     file: null,
     status: 'idle',
   });
-
   const { addToHistory } = useRequestHistoryStore();
-
   const [data, setData] = useState<jsonAnswer>({});
 
   const handleFileSelected = (file: File) => {
     if (!file.name.endsWith('.csv')) {
       return;
     }
-
     setFileState({
       file,
       status: 'ready',
@@ -42,12 +39,10 @@ export default function Analysis() {
   const handleStartParsing = async () => {
     const { file } = fileState;
     if (!file) return;
-
     setFileState((prev) => ({
       ...prev,
       status: 'parsing',
     }));
-
     await fetchAggregate(file, setData, setFileState, addToHistory);
   };
 
@@ -57,14 +52,12 @@ export default function Analysis() {
         Загрузите <b>CSV</b> файл и получите <b>полную информацию</b> о нём за
         сверхнизкое время.
       </p>
-
       <Uploader
         file={fileState.file}
         status={fileState.status}
         onFileSelected={handleFileSelected}
         onReset={handleReset}
       />
-
       {(fileState.status == 'idle' || fileState.status == 'ready') && (
         <Button
           style={{ margin: '1rem auto' }}
@@ -74,7 +67,6 @@ export default function Analysis() {
           Отправить
         </Button>
       )}
-
       <div style={{ marginTop: '2rem' }}>
         {(fileState.status == 'success' || fileState.status == 'parsing') && (
           <FieldSet data={data}></FieldSet>
