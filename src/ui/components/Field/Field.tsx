@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import styles from './Field.module.css';
 import type { FieldProps } from './Field.types';
 import type { jsonAnswer } from '../../../shared/types/common.types';
+import parseDate from '../../../utils/parseDate';
 
 export default function Field({ title, value }: FieldProps) {
   return (
@@ -31,7 +32,7 @@ export function FieldSet({
       />
       <Field
         title="день года с минимальными расходами"
-        value={data.less_spent_at}
+        value={parseDate(data.less_spent_at)}
       />
       <Field
         title="цивилизация с минимальными расходами"
@@ -39,7 +40,7 @@ export function FieldSet({
       />
       <Field
         title="день года с максимальными расходами"
-        value={data.big_spent_at}
+        value={parseDate(data.big_spent_at)}
       />
       <Field
         title="максимальная сумма расходов за день"

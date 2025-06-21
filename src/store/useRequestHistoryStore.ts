@@ -4,8 +4,8 @@ import type { RequestHistoryItem, RequestHistoryState } from './store.types';
 function getCurrentDateFormatted() {
   const today = new Date();
 
-  const day = String(today.getDate()).padStart(2, '0'); // День месяца
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Месяц (начинается с 0)
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0');
   const year = today.getFullYear();
 
   return `${day}.${month}.${year}`;
@@ -22,7 +22,7 @@ export const useRequestHistoryStore = create<RequestHistoryState>((set) => ({
         date: getCurrentDateFormatted(),
       };
 
-      const newHistory = [newItem, ...state.history].slice(0, 50); // ограничение на 50 записей
+      const newHistory = [newItem, ...state.history].slice(0, 50);
 
       saveToLocalStorage(newHistory);
 
@@ -42,8 +42,6 @@ export const useRequestHistoryStore = create<RequestHistoryState>((set) => ({
       return { history: [] };
     }),
 }));
-
-// --- Вспомогательные функции для localStorage ---
 
 function loadFromLocalStorage(): RequestHistoryItem[] {
   try {
