@@ -1,10 +1,6 @@
-interface FieldProps {
-  title: string;
-  value?: any;
-}
-
 import classNames from 'classnames';
 import styles from './Field.module.css';
+import type { FieldProps } from './Field.types';
 
 export default function Field({ title, value }: FieldProps) {
   return (

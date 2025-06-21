@@ -1,9 +1,17 @@
 import { useState } from 'react';
-import StateButton, { type state } from '../components/StateButton/StateButton';
+import StateButton, {
+  type button_state,
+} from '../components/StateButton/StateButton';
 import fetchReport from '../../api/fetchReport';
 
 export default function Generate() {
-  const [state, changeState] = useState<state>('basic');
+  const [state, changeState] = useState<button_state>('basic');
+
+  const searchParams = {
+    size: '0.01',
+    withErrors: 'off',
+    maxSpend: '10000',
+  };
 
   const handleStartParsing = async () => {
     changeState('loading');
@@ -14,11 +22,7 @@ export default function Generate() {
       failed: () => {
         changeState('error');
       },
-      searchParams: {
-        size: '0.1',
-        withErrors: 'off',
-        maxSpend: '10000',
-      },
+      searchParams: searchParams,
     });
   };
 

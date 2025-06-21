@@ -1,20 +1,5 @@
 import { create } from 'zustand';
-import type { jsonAnswer } from '../ui/pages/Analysis';
-
-export type RequestHistoryItem = {
-  id?: string; // уникальный ID
-  date?: string;
-  fileName: string;
-  status: 'success' | 'failed';
-  result?: jsonAnswer;
-};
-
-interface RequestHistoryState {
-  history: RequestHistoryItem[];
-  addToHistory: (item: Omit<RequestHistoryItem, 'id'>) => void;
-  removeFromHistory: (id: string) => void;
-  clearHistory: () => void;
-}
+import type { RequestHistoryItem, RequestHistoryState } from './store.types';
 
 function getCurrentDateFormatted() {
   const today = new Date();

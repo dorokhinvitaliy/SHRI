@@ -10,7 +10,6 @@ import fileIcon from '/file.svg';
 import trashIcon from '/trash.svg';
 
 import styles from './HistoryItem.module.css';
-import type { jsonAnswer } from '../../pages/Analysis';
 import { Modal } from '../Modal/Modal';
 import Field, { FieldSet } from '../Field/Field';
 import { useState } from 'react';

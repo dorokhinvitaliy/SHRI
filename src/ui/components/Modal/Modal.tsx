@@ -3,7 +3,7 @@ import styles from './Modal.module.css';
 
 import closeIcon from '/cancel.svg';
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function Modal({
   isOpened,
@@ -31,14 +31,8 @@ export function Modal({
     >
       <div className={styles.modalInnerContainer}>
         <div className={styles.modal}>{children}</div>
-        <div className={styles.closeButton}>
-          <img
-            src={closeIcon}
-            alt="close"
-            width={20}
-            height={20}
-            onClick={() => closing()}
-          />
+        <div className={styles.closeButton} onClick={() => closing()}>
+          <img src={closeIcon} alt="close" width={20} height={20} />
         </div>
       </div>
     </div>,

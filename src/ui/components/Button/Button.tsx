@@ -1,14 +1,6 @@
-type ButtonProperties = {
-  children: React.ReactNode;
-  className?: string;
-  inactive?: boolean;
-  clear?: boolean;
-  download?: boolean;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
 import classNames from 'classnames';
-
 import styles from './Button.module.css';
+import type { ButtonProperties } from './Button.types';
 
 export default function Button({
   children,

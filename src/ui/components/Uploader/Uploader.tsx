@@ -3,15 +3,7 @@ import styles from './Uploader.module.css';
 
 import cancel from '/cancel.svg';
 import classNames from 'classnames';
-
-export type UploaderFileState = {
-  onFileSelected?: (file: File) => void;
-  onReset?: () => void;
-  file: File | null;
-  status: 'idle' | 'ready' | 'parsing' | 'success' | 'error';
-  parsing?: boolean;
-  parsingDone?: boolean;
-};
+import type { UploaderFileState } from './Uploader.types';
 
 export default function Uploader({
   onFileSelected,

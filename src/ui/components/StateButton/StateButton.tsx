@@ -3,7 +3,7 @@ import Button from '../Button/Button';
 import styles from './StateButton.module.css';
 import cancel from '/cancel.svg';
 
-export type state = 'basic' | 'loading' | 'success' | 'error';
+export type button_state = 'basic' | 'loading' | 'success' | 'error';
 
 export default function StateButton({
   children,
@@ -12,7 +12,7 @@ export default function StateButton({
   onReset,
 }: {
   children: React.ReactNode;
-  state: state;
+  state: button_state;
   onClick: () => void;
   onReset: () => void;
 }) {
