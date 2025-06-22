@@ -68,8 +68,18 @@ export default function Analysis() {
         </Button>
       )}
       <div style={{ marginTop: '2rem' }}>
-        {(fileState.status == 'success' || fileState.status == 'parsing') && (
+        {fileState.status == 'success' || fileState.status == 'parsing' ? (
           <FieldSet data={data}></FieldSet>
+        ) : (
+          <p
+            style={{
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              color: 'var(--dark-purple)',
+            }}
+          >
+            Здесь появятся хайлайты
+          </p>
         )}
       </div>
     </div>
