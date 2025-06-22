@@ -11,7 +11,9 @@ export default function History() {
     <div className="area">
       <HistoryItems items={history} />
       <Buttons>
-        <Button onClick={() => navigate('/')}>Сгенерировать больше</Button>
+        <Button onClick={() => navigate('/generate')}>
+          Сгенерировать больше
+        </Button>
         <Button clear onClick={() => clearHistory()}>
           Очистить всё
         </Button>
